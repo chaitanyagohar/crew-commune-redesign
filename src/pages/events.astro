@@ -1,0 +1,100 @@
+---
+import Base from "../layouts/Base.astro";
+import Media from "../components/Media.astro";
+import PageHero from "../components/PageHero.astro";
+import Cta from "../components/Cta.astro";
+import { SITE, UDAAN } from "../data/site";
+
+const event = {
+  "@context": "https://schema.org",
+  "@type": "SportsEvent",
+  name: UDAAN.name,
+  description: "A run for women's empowerment through Aundh–Baner, Pune, with a 3K Saree Run and timed 5K and 10K races. Free entry for women.",
+  startDate: UDAAN.start,
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  eventStatus: "https://schema.org/EventScheduled",
+  location: { "@type": "Place", name: "Aundh–Baner", address: { "@type": "PostalAddress", addressLocality: "Pune", addressRegion: "Maharashtra", addressCountry: "IN" } },
+  organizer: { "@id": `${SITE.url}/#org` },
+  sponsor: { "@type": "Person", name: UDAAN.presenter },
+  sport: "Running",
+  isAccessibleForFree: true,
+};
+const highlights = [
+  ["Free", "Free for women", "Registration cost nothing for every female participant."],
+  ["3K", "The Saree Run", "Women could run or walk the 3K in a saree, as a celebration rather than a competition."],
+  ["5K · 10K", "Timed categories", "Competitive races with a timing certificate for every finisher."],
+  ["Prizes", "Cash & goodies", "Prizes for winners, plus a lucky draw and a best-costume contest."],
+  ["Family", "Kids' zone", "Entertainment for children who came along with the women running."],
+  ["Cause", "Beyond the run", "Promoting education, sport, equal employment and healthcare access for women."],
+];
+---
+<Base
+  title="Events — Udaan Nari Shakti Run 2.0 | Crew Commune, Pune"
+  description="Udaan Nari Shakti Run 2.0 by Crew Commune: a run for women's empowerment in Aundh–Baner, Pune, with a 3K Saree Run and timed 5K and 10K races. Free for women."
+  crumbs={[{ name: "Home", path: "/" }, { name: "Events", path: "/events" }]}
+  schema={[event]}
+>
+  <PageHero crumb="Events" title="Races we've flagged off." label="Events" lede="Our headline event is the Udaan Nari Shakti Run, a run for women's empowerment through Aundh–Baner, now two seasons strong." aside={["Latest: Season 2", `${UDAAN.dateLabel} · ${UDAAN.flagOff}`]} />
+
+  <section class="sec maroon feat" data-tone="dark" id="udaan" aria-labelledby="udaan-h">
+    <div class="wrap grid">
+      <div class="feat__media">
+        <Media ig={2} stock="run2" vid="woman" alt="A woman running at sunrise" plate={["Season 2", "Udaan 2.0"]} tone="maroon" cap={["Season 2", " · Run for women"]} sizes="(max-width: 900px) 90vw, 40vw" eager />
+      </div>
+      <div class="feat__body">
+        <p class="label label--dim"><span class="paren">Featured race</span> · Season 2</p>
+        <h2 id="udaan-h" class="feat__title d d-l"><span>Udaan</span><span class="o">Nari Shakti</span><span>Run 2.0</span></h2>
+        <p class="body">Presented by {UDAAN.presenter} and organised by Crew Commune. A collective run to raise awareness of the challenges women face. Open to everyone, free for women.</p>
+        <dl class="snap">
+          <div><dt class="label">Date</dt><dd>{UDAAN.dateLabel}</dd></div>
+          <div><dt class="label">Flag-off</dt><dd>{UDAAN.flagOff}</dd></div>
+          <div><dt class="label">Area</dt><dd>Aundh–Baner</dd></div>
+          <div><dt class="label">Women's entry</dt><dd>Free</dd></div>
+        </dl>
+        <div>
+          <div class="cats" role="tablist" aria-label="Race categories">
+            {UDAAN.categories.map((c, i) => (
+              <button class="cat" type="button" role="tab" id={`cat${i}`} aria-selected={i === 0 ? "true" : "false"} aria-controls="routePanel" tabindex={i === 0 ? 0 : -1} data-frac={c.frac} data-note={c.note} data-km={`${c.km.replace("K", "")} KM`}>{c.km} · {c.label}</button>
+            ))}
+          </div>
+          <div class="route" id="routePanel" role="tabpanel" aria-labelledby="cat0">
+            <svg viewBox="0 0 420 110" aria-hidden="true">
+              <path class="route__base" d="M10 80 C70 10 120 100 190 50 S300 10 340 70 S400 90 410 30" />
+              <path class="route__run" id="routePath" d="M10 80 C70 10 120 100 190 50 S300 10 340 70 S400 90 410 30" />
+              <circle class="route__dot" id="routeDot" r="6" cx="10" cy="80" />
+              <text class="route__km" x="6" y="104">START</text><text class="route__km" x="372" y="104" id="routeKm">3 KM</text>
+            </svg>
+            <p class="route__note label" id="catNote">{UDAAN.categories[0].note}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" data-tone="light" aria-labelledby="hl-h">
+    <div class="wrap">
+      <div class="head"><h2 id="hl-h" class="d d-l" data-split>What made Udaan different</h2><p class="body">Six details from the race brief that shaped the morning.</p></div>
+      <div class="hl">
+        {highlights.map(([k, h, p]) => (<div><span class="label red-t">{k}</span><h3 class="d d-s">{h}</h3><p>{p}</p></div>))}
+      </div>
+      <ul class="kit-chips" aria-label="In every Udaan race kit">{UDAAN.kit.map((k) => <li>{k}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sec dark" data-tone="dark" id="seasons" aria-labelledby="seasons-h">
+    <div class="wrap">
+      <div class="head"><h2 id="seasons-h" class="d d-l" data-split>The Udaan story so far</h2><p class="body">Two seasons in Aundh–Baner, and room on the calendar for the next one.</p></div>
+      <div class="seasons">
+        <article class="season"><Media ig={1} stock="run1" alt="Runners on a city road" plate={["S1", "Udaan"]} tone="maroon" sizes="(max-width: 900px) 90vw, 30vw" /><p class="label red-t">Season 1</p><h3 class="d d-s">Udaan Nari Shakti Run</h3><p class="body">The first edition left participants happy, the society fitter and the city cleaner, and set up season two.</p></article>
+        <article class="season"><Media ig={3} stock="run2" alt="Women running at sunrise" plate={["S2", "Udaan 2.0"]} tone="stone" sizes="(max-width: 900px) 90vw, 30vw" /><p class="label red-t">Season 2 · 05 Jan 2025</p><h3 class="d d-s">Udaan Nari Shakti Run 2.0</h3><p class="body">3K, 5K and 10K categories, free entry for women, a Saree Run and a big post-race celebration.</p></article>
+        <a class="season season--next" href="/contact" data-label="Contact" data-cursor="Plan"><div class="m"><span class="d">+</span></div><p class="label red-t">Next</p><h3 class="d d-s">Your event here</h3><p class="body">A cause, a community, a brand or a company that wants to move? Let's put it on the calendar.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <Cta l1="Partner on" l2="season three" />
+</Base>
+
+<script>
+  import "../scripts/events";
+</script>
